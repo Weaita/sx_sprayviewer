@@ -1,3 +1,6 @@
+comment this code, don't alter the original code just add comments
+
+
 <!DOCTYPE html>
 <html>
 
@@ -38,7 +41,7 @@
 			border-radius: 4px;
 			color: #333;
 			padding: 7px;
-            margin-left: 5px;
+			margin-left: 5px;
 		}
 
 		.file-upload {
@@ -63,7 +66,7 @@
 
 		model-viewer {
 			width: 100%;
-			height: 700px;
+			height: 800px;
 			background-color: #F8F8F8;
 		}
 	</style>
@@ -78,6 +81,25 @@
 				<option value="assets/windsor.glb">Windsor</option>
 				<option value="assets/regina.glb">Regina</option>
 				<option value="assets/policecar.glb">Police LV</option>
+				
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
+				<option value="assets/windsor.glb">Windsor</option>
+				<option value="assets/regina.glb">Regina</option>
+				<option value="assets/policecar.glb">Police LV</option>
 				</option>
 			</select>
 		</div>
@@ -87,18 +109,20 @@
 		<input type="file" id="urlA">
 	</div>
 
-	<model-viewer id="modelViewer" camera-controls
-		src="assets/windsor.glb" shadow-intensity="0"
-		environment-image="neutral" exposure="0.5"></model-viewer>
+
+	<model-viewer id="modelViewer" camera-controls src="assets/windsor.glb" camera-orbit="-40deg 70deg 0.59m"
+		shadow-intensity="0" environment-image="neutral" exposure="0.5"></model-viewer>
 
 	<script src="https://unpkg.com/@google/model-viewer@1.12.0/dist/model-viewer-umd.js"></script>
 	<script type="text/javascript">
+		// Cambiar modelo en pantalla
 		function changeModel() {
 			const select = document.getElementById("model-select");
 			const viewer = document.getElementById("modelViewer");
 			viewer.setAttribute("src", select.value);
 		}
 
+		// Al subir spray
 		document.getElementById("urlA").addEventListener("change", function () {
 			const file = this.files[0];
 			const viewer = document.getElementById("modelViewer");
@@ -112,6 +136,45 @@
 			});
 			reader.readAsDataURL(file);
 		})
+	</script>
+
+	<script>
+		// Soporte para drag and drop
+		window.addEventListener('dragover', function (e) {
+			e.preventDefault();
+		});
+
+		window.addEventListener('drop', function (e) {
+			e.preventDefault();
+			const file = e.dataTransfer.files[0];
+			const viewer = document.getElementById("modelViewer");
+
+			if (!file) return;
+
+			const reader = new FileReader();
+			reader.addEventListener('load', async function () {
+				const texture = await viewer.createTexture(reader.result);
+				viewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(texture);
+			});
+			reader.readAsDataURL(file);
+		});
+
+		// Soporte para ctrl + v
+		document.onpaste = function (pasteEvent) {
+			var item = pasteEvent.clipboardData.items[0];
+			if (item.type.indexOf("image") === 0) {
+				const file = item.getAsFile();
+				const viewer = document.getElementById("modelViewer");
+
+				if (!file) return;
+				const reader = new FileReader();
+				reader.addEventListener('load', async function () {
+					const texture = await viewer.createTexture(reader.result);
+					viewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(texture);
+				});
+				reader.readAsDataURL(file);
+			}
+		}
 	</script>
 </body>
 
