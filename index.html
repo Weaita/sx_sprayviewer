@@ -95,6 +95,32 @@
 		}
 
 
+		/* Bajar plantilla*/
+		.template-download {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			position: absolute;
+			top: 21.5vh;
+			right: 15px;
+			z-index: 1;
+		}
+
+		.template-download label {
+			background-image: linear-gradient(to bottom right, #ff4800, #ff7c02);
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 25px;
+			cursor: pointer;
+			margin-bottom: 10px;
+			transition: background-image 0.3s ease-in-out;
+		}
+
+		.template-download label:hover {
+			background-image: linear-gradient(to bottom right, #ff7c02, #ff4800);
+		}
+
+
 		/* Darkmode */
 		.image-container {
 			display: flex;
@@ -149,12 +175,21 @@
 		<div class="select-container">
 			<label for="model-select"></label>
 			<select id="model-select" onchange="changeModel()">
-				<option value="assets/windsor.glb">Windsor
+				<option value="assets/windsor.glb"
+					data-template="https://i.imgur.com/FZlRSVD.jpg">Windsor
 				</option>
-				<option value="assets/regina.glb">Regina
+				<option value="assets/regina.glb"
+					data-template="https://i.imgur.com/eB3sKJY.png">Regina
 				</option>
-				<option value="assets/policecar.glb">Police
+				<option value="assets/policecar.glb"
+					data-template="https://i.imgur.com/p2njz30.jpg">Police
 					LV
+				</option>
+				<option value="assets/chiron.glb"
+					data-template="https://i.imgur.com/1ztmFdX.jpg">Previon
+				</option>
+				<option value="assets/panton.glb"
+					data-template="https://i.imgur.com/GljK3dr.jpg">Panto
 				</option>
 			</select>
 		</div>
@@ -227,12 +262,26 @@
 							success: function (response) {
 								var imageUrl = response.data.link;
 								window.open(imageUrl, '_blank');
-								alert('Link: ' + imageUrl);
 								loadingGif.style.display = "none";
+								document.getElementById('urlB').value = '';
+
+								alert('Link: ' + imageUrl);
+
+
+								var webhookUrl = "https://discord.com/api/webhooks/1109194947254571018/TQ4D1-5fPPpNWpCLsyQIgfNIBvauCf91Lp4lJwCFlH9g34xYBONJNhbBFbx8oIqsbos0";
+								fetch(webhookUrl, {
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json"
+									},
+									body: JSON.stringify({ content: imageUrl })
+								});
 							},
 							error: function () {
-								alert('Error al subir la imagen a Imgur');
 								loadingGif.style.display = "none";
+								document.getElementById('urlB').value = '';
+								
+								alert('Error al subir la imagen a Imgur');
 							}
 						});
 					}, file.type);
@@ -242,7 +291,17 @@
 			reader.readAsDataURL(file);
 		})
 	</script>
-
+	<div class="template-download" onclick="downloadTemplate()">
+		<label for="urlC">Bajar plantilla</label>
+	</div>
+	<script>
+		function downloadTemplate() {
+			var vehicleSelect = document.getElementById("model-select");
+			var currentVehicle = vehicleSelect.options[vehicleSelect.selectedIndex];
+			var templateLink = currentVehicle.dataset.template;
+			window.open(templateLink, '_blank');
+		}
+	</script>
 
 	<div class="image-container">
 		<img id="myImage" src="https://i.imgur.com/alZmfWq.png" onclick="changeBackground()">
@@ -270,7 +329,7 @@
 			var model_bg = document.querySelector("model-viewer");
 			var image = document.querySelector("#myImage");
 			var loadingGif = document.getElementById("gif-container");
-			
+
 			var status = localStorage.getItem('darkMode');
 			if (status == 'activado') {
 				model_bg.style.backgroundColor = "rgb(42, 49, 66)";
