@@ -178,8 +178,7 @@
 				<option value="assets/windsor.glb"
 					data-template="https://i.imgur.com/FZlRSVD.jpg">Windsor
 				</option>
-				<option value="assets/regina.glb"
-					data-template="https://i.imgur.com/eB3sKJY.png">Regina
+				<option value="assets/regina.glb">Regina
 				</option>
 				<option value="assets/policecar.glb"
 					data-template="https://i.imgur.com/p2njz30.jpg">Police
@@ -297,7 +296,10 @@
 			var vehicleSelect = document.getElementById("model-select");
 			var currentVehicle = vehicleSelect.options[vehicleSelect.selectedIndex];
 			var templateLink = currentVehicle.dataset.template;
-			window.open(templateLink, '_blank');
+			
+			if (templateLink) {
+				window.open(templateLink, '_blank');
+			}
 		}
 	</script>
 
