@@ -175,20 +175,16 @@
 		<div class="select-container">
 			<label for="model-select"></label>
 			<select id="model-select" onchange="changeModel()">
-				<option value="assets/windsor.glb"
-					data-template="https://i.imgur.com/FZlRSVD.jpg">Windsor
+				<option value="assets/windsor.glb" data-template="https://i.imgur.com/FZlRSVD.jpg">Windsor
 				</option>
 				<option value="assets/regina.glb">Regina
 				</option>
-				<option value="assets/policecar.glb"
-					data-template="https://i.imgur.com/p2njz30.jpg">Police
+				<option value="assets/policecar.glb" data-template="https://i.imgur.com/p2njz30.jpg">Police
 					LV
 				</option>
-				<option value="assets/chiron.glb"
-					data-template="https://i.imgur.com/1ztmFdX.jpg">Previon
+				<option value="assets/chiron.glb" data-template="https://i.imgur.com/1ztmFdX.jpg">Previon
 				</option>
-				<option value="assets/panton.glb"
-					data-template="https://i.imgur.com/GljK3dr.jpg">Panto
+				<option value="assets/panton.glb" data-template="https://i.imgur.com/GljK3dr.jpg">Panto
 				</option>
 			</select>
 		</div>
@@ -277,7 +273,7 @@
 							error: function () {
 								loadingGif.style.display = "none";
 								document.getElementById('urlB').value = '';
-								
+
 								alert('Error al subir la imagen a Imgur');
 							}
 						});
@@ -296,7 +292,7 @@
 			var vehicleSelect = document.getElementById("model-select");
 			var currentVehicle = vehicleSelect.options[vehicleSelect.selectedIndex];
 			var templateLink = currentVehicle.dataset.template;
-			
+
 			if (templateLink) {
 				window.open(templateLink, '_blank');
 			}
@@ -340,13 +336,17 @@
 		});
 	</script>
 
-	<model-viewer id="modelViewer" camera-controls
-		src="assets/windsor.glb"
-		camera-orbit="-40deg 70deg 0.59m" shadow-intensity="0" environment-image="neutral"
-		exposure="0.5"></model-viewer>
+	<model-viewer id="modelViewer" camera-controls src="assets/windsor.glb" camera-orbit="-40deg 70deg 0.59m"
+		shadow-intensity="0" environment-image="neutral" exposure="0.5"></model-viewer>
 
 	<script src="https://unpkg.com/@google/model-viewer@1.12.0/dist/model-viewer-umd.js"></script>
 	<script type="text/javascript">
+		modelViewer.addEventListener('load', () => {
+			for (const material of modelViewer.model.materials) {
+				// Removes occlusion map from all materials.
+				material.occlusionTexture.setTexture(null);
+			}
+		});
 		// Change the model on screen
 		function changeModel() {
 			const select = document.getElementById("model-select");
