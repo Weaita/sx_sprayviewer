@@ -362,6 +362,11 @@
 			reader.addEventListener('load', async function () {
 				const texture = await viewer.createTexture(reader.result);
 				viewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(texture);
+
+				for (const material of modelViewer.model.materials) {
+					// Removes occlusion map from all materials.
+					material.occlusionTexture.setTexture(null);
+				}
 			});
 			reader.readAsDataURL(file);
 			document.getElementById('urlA').value = '';
