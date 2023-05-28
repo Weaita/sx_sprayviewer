@@ -189,6 +189,14 @@
 				</option>
 				<option value="assets/panton.glb" data-template="https://i.imgur.com/GljK3dr.jpg">Panto
 				</option>
+				<option value="assets/fmustang.glb" data-template="https://i.imgur.com/RqaMNSp.png">Ford Mustang 1971
+				</option>
+				<option value="assets/gtr.glb" data-template="https://i.imgur.com/Xi1RXAy.png">Nissan GT-R R35
+				</option>
+				<option value="assets/mclaren.glb" data-template="https://i.imgur.com/s3fMYDB.png">McLaren P1
+				</option>
+				<option value="assets/tesla.glb" data-template="https://i.imgur.com/JlpO5Tt.jpg">Tesla Model S
+				</option>
 			</select>
 		</div>
 	</header>
@@ -344,12 +352,6 @@
 
 	<script src="https://unpkg.com/@google/model-viewer@1.12.0/dist/model-viewer-umd.js"></script>
 	<script type="text/javascript">
-		// modelViewer.addEventListener('load', () => {
-		// 	for (const material of modelViewer.model.materials) {
-		// 		// Removes occlusion map from all materials.
-		// 		material.occlusionTexture.setTexture(null);
-		// 	}
-		// });
 		// Change the model on screen
 		function changeModel() {
 			const select = document.getElementById("model-select");
@@ -365,11 +367,6 @@
 			reader.addEventListener('load', async function () {
 				const texture = await viewer.createTexture(reader.result);
 				viewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(texture);
-
-				// for (const material of modelViewer.model.materials) {
-				// 	// Removes occlusion map from all materials.
-				// 	material.occlusionTexture.setTexture(null);
-				// }
 			});
 			reader.readAsDataURL(file);
 			document.getElementById('urlA').value = '';
